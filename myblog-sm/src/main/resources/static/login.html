@@ -5,9 +5,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>登陆页面</title>
+    <title>登录页面</title>
     <link rel="stylesheet" href="css/conmmon.css">
     <link rel="stylesheet" href="css/login.css">
+    <script src="js/jquery.min.js"></script>
 </head>
 
 <body>
@@ -34,10 +35,49 @@
                 <input type="password" id="password">
             </div>
             <div class="row">
-                <button id="submit">提交</button>
+                <button id="submit" onclick="doLogin()">提交</button>
             </div>
         </div>
     </div>
+    <script>
+        //执行登陆操作
+        function doLogin() {
+            //1.参数校验
+            var username = jQuery("#username");
+            var password = jQuery("#password");
+
+            if(username.val().trim() == "") {
+                alert("请先输入用户名");
+                username.focus();
+                return false;
+            }
+            if(password.val().trim() == "") {
+                alert("请输入密码");
+                password.focus();
+                return false;
+            }
+            //2.将数据提交给后端
+            jQuery.ajax({
+                url: "/user/login",
+                type: "GET",
+                data: {
+                    "username": username.val(),
+                    "password": password.val()
+                },
+                success: function(res) {
+                    //3.将结果展示给用户
+                    if(res.code == 200 && res.data == 1) {
+                        //登录成功
+                        alert("登录成功");
+                        location.href = "myblog_list.html"; 
+                    } else {
+                        alert("抱歉，登录失败" + res.msg);
+                    }
+                }
+            });
+
+        }
+    </script>
 </body>
 
 </html>

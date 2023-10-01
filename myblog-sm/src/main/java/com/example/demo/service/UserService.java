@@ -3,6 +3,7 @@ package com.example.demo.service;
 
 import com.example.demo.dao.UserMapper;
 import com.example.demo.model.Userinfo;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,4 +16,9 @@ public class UserService {
     public int reg(Userinfo userinfo) {
         return userMapper.reg(userinfo);
     }
+
+    public Userinfo getUserByName(String username) {
+        return userMapper.getUserByName(username);
+    }
+
 }
